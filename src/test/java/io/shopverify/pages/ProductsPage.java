@@ -4,7 +4,7 @@ import java.util.List;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
 public class ProductsPage extends BasePage {
- public ProductsPage(WebDriver d) { super(d); text("title"); }
+ public ProductsPage(WebDriver d) { super(d); wait.until(org.openqa.selenium.support.ui.ExpectedConditions.urlContains("inventory.html")); text("title"); }
  public void add(String slug) { click("add-to-cart-"+slug); }
  public void remove(String slug) { click("remove-"+slug); }
  public void sort(String value) { new Select(d.findElement(id("product-sort-container"))).selectByValue(value); }
