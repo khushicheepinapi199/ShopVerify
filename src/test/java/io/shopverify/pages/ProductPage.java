@@ -2,7 +2,7 @@ package io.shopverify.pages;
 import java.math.BigDecimal;
 import org.openqa.selenium.WebDriver;
 public class ProductPage extends BasePage {
- public ProductPage(WebDriver d) { super(d); }
+ public ProductPage(WebDriver d) { super(d); wait.until(org.openqa.selenium.support.ui.ExpectedConditions.urlContains("inventory-item.html")); }
  public String name() { return text("inventory-item-name"); }
  public String description() { return text("inventory-item-desc"); }
  public BigDecimal price() { return money(text("inventory-item-price")); }

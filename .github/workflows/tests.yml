@@ -16,8 +16,10 @@ jobs:
           distribution: temurin
           java-version: '17'
           cache: maven
-      - name: Run regression suite
-        run: mvn -B test -Dheadless=true
+      - name: Build and run integration and browser tests
+        run: mvn -B verify -Dheadless=true
+      - name: Verify saved accounts survive restart
+        run: python3 scripts/check_persistence.py
       - name: Upload reports and failure evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -26,4 +28,5 @@ jobs:
           path: |
             target/surefire-reports/
             target/failure-evidence/
+            target/previews/
           if-no-files-found: warn
