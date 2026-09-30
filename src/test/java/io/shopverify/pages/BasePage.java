@@ -4,9 +4,9 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
 public abstract class BasePage {
  protected final WebDriver d; protected final WebDriverWait wait;
- protected BasePage(WebDriver d) { this.d=d; wait=new WebDriverWait(d,java.time.Duration.ofSeconds(10)); }
+ protected BasePage(WebDriver d) { this.d=d; wait=new WebDriverWait(d,java.time.Duration.ofSeconds(10)); wait.ignoring(StaleElementReferenceException.class); }
  protected By id(String s) { return By.cssSelector("[data-test='"+s+"']"); }
- protected void click(String s) { wait.until(ExpectedConditions.elementToBeClickable(id(s))).click(); }
+ protected void click(String s) { wait.until(driver->{ var element=ExpectedConditions.elementToBeClickable(id(s)).apply(driver); if(element==null) return false; element.click(); return true; }); }
  protected String text(String s) { return wait.until(ExpectedConditions.visibilityOfElementLocated(id(s))).getText(); }
  protected void fill(String s,String v) { var e=wait.until(ExpectedConditions.visibilityOfElementLocated(id(s))); e.clear(); e.sendKeys(v); }
  protected BigDecimal money(String s) { return new BigDecimal(s.substring(s.indexOf('$')+1).trim()); }

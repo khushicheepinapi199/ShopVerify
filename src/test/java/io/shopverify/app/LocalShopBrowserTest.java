@@ -14,7 +14,7 @@ class LocalShopBrowserTest {
  String url(String path) { return "http://localhost:"+port+path; }
  WebElement element(String id) { return wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test='"+id+"']"))); }
  void type(String id,String value) { var e=element(id); e.clear(); e.sendKeys(value); }
- void click(String id) { element(id).click(); }
+ void click(String id) { element(id).click(); if(id.equals("logout")) wait.until(ExpectedConditions.urlContains("logout")); if(id.equals("place-order")) wait.until(ExpectedConditions.urlMatches(".*/orders/[0-9]+")); }
  void login(String password) { d.get(url("/login")); type("username",username); type("password",password); click("login-button"); }
  void preview(String name) { try { var folder=Path.of("target/previews"); Files.createDirectories(folder); Files.write(folder.resolve(name+".png"),((TakesScreenshot)d).getScreenshotAs(OutputType.BYTES)); } catch(Exception e) { throw new RuntimeException(e); } }
  void register() { d.get(url("/register")); type("username",username); type("password","TestPass123!"); type("confirmation","TestPass123!"); click("register-button"); wait.until(ExpectedConditions.urlContains("registered")); login("TestPass123!"); wait.until(ExpectedConditions.urlContains("products")); }
