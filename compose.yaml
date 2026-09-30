@@ -1,0 +1,11 @@
+services:
+  shopverify:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SHOPVERIFY_DB_URL: jdbc:h2:file:/app/data/shopverify
+    volumes:
+      - shopverify-data:/app/data
+volumes:
+  shopverify-data:
